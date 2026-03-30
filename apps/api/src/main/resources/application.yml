@@ -1,11 +1,22 @@
 server:
-  port: 8080
+  port: 8888
 
 spring:
+  application:
+    name: ecommerce-api
   datasource:
     url: jdbc:postgresql://localhost:5432/ecommerce_db
-    username: root
-    password: 1234
+    username: ecommerce_user
+    password: ecommerce_pass
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/ecommerce_db
+    user: ecommerce_user
+    password: ecommerce_pass
+    locations: classpath:db/migration
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -13,10 +24,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
+  jackson:
+    default-property-inclusion: non_null
 
 logging:
   level:
-    org.hibernate.SQL: info
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
+
+app:
+  security:
+    jwt:
+      secret: VGhpc0lzQVN1ZmZpY2llbnRseUxvbmdCYXNlNjRTZWNyZXRLZXlGb3JEZXZPc25seQ==
+      access-token-expiration-ms: 900000
+      refresh-token-expiration-ms: 2592000000
